@@ -11,3 +11,52 @@ taken for granted.
 #+end_abstract
 
 * Preliminaries
+
+** Utility of Transacting with Bitcoin
+
+Regardless of how it's configured or how it works, every wallet ends up making
+decisions on behalf of the user, favoring certain actions over others. This is
+an optimization problem by definition. This implies the existence of a cost
+function even if one is not explicitly written down, as code or in any other
+form.
+
+Transactions have costs associated with them, and compete for limited blockspace
+with other transactions. Therefore, we must assume that transforming the set of
+coins provides positive utility from their signers' perspective, or they
+wouldn't authorize the transaction. It is the role of the cost function to model
+this utility.
+
+Coins are potentially complex, programmable entities but basic usage can usually
+abstract over the scripting aspects of signing transactions. However, even when
+abstracting over those details we will always assume that in authorizing
+transactions, users of Bitcoin benefit directly or indirectly from the
+destruction of some spendable coins and the creation of new coins in their
+place, and also that the new coins are confirmed within a reasonable time frame.
+
+For example, economic exchange can be mediated by transferring control over
+sats, and typically requires more timely confirmation with higher feerates.
+Other reasons one might choose to broadcast a transaction include key management
+(in particular with regards to cold storage), or when enforcing some outcome
+defined by an offchain protocol (e.g. unilateral closure of a lightning channel
+and the possible punishment transactions that may follow). In a perfect world we
+would not have to worry about these details, but they do need to be taken into
+account in some cases because of technical constraints or for reasons of
+security, privacy and mechanism design or incentives. Perhaps most prominently,
+inputs and outputs of different types vary in their size requirements, which
+given the user's chosen feerate determines the total fees paid, and the main
+parameter controlling confirmation times vs. cost. The total fees paid are an
+obvious term for any cost function, but in order to control the wallet's
+behavior additional terms are needed in order to internalize any positive and
+negative externalities of the transaction from the point of view of the user.
+
+Clearly defined cost functions can benefit users in several ways. Wallet
+software should provide knobs as appropriate for the intended use cases in order
+to allow the users' preferences to be satisfied simply and intuitively, because
+users rely on this software realize their indirect goals, as assumed above.
+Secondly, claims made by wallet vendors, especially those specializing in
+privacy, might be examined more closely from this perspective. Being rigorous
+requires a more objective basis for comparison between different described or
+observed behaviors and performance with respect desired behavior. Formulating
+these claims in terms of mathematical optimization can help to scrutinize both
+the claims and the corresponding code about which the claims are made, as well
+as provide more precise definitions of the desired behavior.
