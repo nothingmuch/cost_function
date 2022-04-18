@@ -12,3 +12,5 @@ with confirmation times. This is in addition to well established objective
 metrics such as the blockspace or fees required for a transaction, which are
 taken for granted.
 #+end_abstract
+
+* Preliminaries
