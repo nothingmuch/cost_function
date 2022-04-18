@@ -1,0 +1,11 @@
+#+TITLE: Bitcoin Wallet Cost Function Analysis
+
+#+begin_abstract
+This repository proposes a framework for studying cost functions for the
+decision space available to Bitcoin wallets when creating transactions. A
+primary goal is accounting for user defined liabilities incurred by transactions
+lacking the desired level of privacy or confidentiality, and their interaction
+with confirmation times. This is in addition to well established objective
+metrics such as the blockspace or fees required for a transaction, which are
+taken for granted.
+#+end_abstract
