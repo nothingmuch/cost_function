@@ -11,3 +11,70 @@ taken for granted.
 #+end_abstract
 
 * Preliminaries
+
+** Transaction Structure
+
+As a first approximation, Bitcoin transactions consist of two lists, one of
+/inputs/ and one of /outputs/. Inputs fund a transaction, spending the outputs
+of prior transactions by reference, accompanied with proof that the transaction
+is authorized. The number of sats allocated to each output is specified in its
+value. Transactions which are not fully funded aren't valid. Transaction are
+identified by their /txid/, derived by hashing them. Inputs refer to previous
+outputs by using a ~txid~ and an index specifying the output being spent.
+
+The transaction graph is the overall structure formed by transactions being
+interconnected. Because the full graph is publicly known, every coin has a
+history comprising of its funding transaction. That transaction is of course
+funded by other coins, the transactions that created them were in turn funded by
+others still, and so on. Similarly, one can talk about all of the transactions
+that follow a certain coin or a certain transaction, to some depth.
+
+Transaction fees are paid by making the sum of the output values in a
+transaction smaller than the implied sum of the input values (this is calculated
+from values of the /previous outputs/). Although no fees are required for a
+transaction to be valid nodes can specify a minimum feerate for transactions
+relayed to them in order to avoid clogging their mempools.[fn::Blocks may
+include any valid transaction, but relayed transactions generally must also
+conform to standardness rules which introduce some additional constraints.]
+
+In addition to what was already mentioned, the data of a transaction consists of
+output scripts, and signature or witness data[fn::Witness data is not included
+in the ~txid~ hash, as indicated by the name Segregated Witness. This allows
+transactions that *only* contain SegWit inputs to have a known ~txid~ before
+they are signed. Knowing the ~txid~ in advance makes it possible to prepare and
+sign dependent transactions ahead of time, before authorizing a whole set of
+possible outcomes with the final signature on the initial transaction.]
+which proves authorization for each input, a version field and a
+locktime field.  The space requirement for this data is accounted for using
+/weight units/. This can divide the total fees paid by a transaction to
+calculate a feerate in sats per weight unit, but more commonly fees are given in
+sats per (kilo) /virtual byte/.[fn::Virtual bytes can be thought of as
+\(\lfloor\frac{\textrm{weight units} + 3}{4}\rfloor\), where literal bytes of data are
+counted as either 1 or 4 weight units depending on what they represent, witness
+data only counts as 1 and is therefore effectively discounted.]
+
+Before a transaction is fully constructed its feerate is generally not known
+even if its input and output lists are finalized because the final weight of
+non-taproot inputs will vary. The actual sizes are typically within a few weight
+units of the worst case values. Accounting for the worst case a minimum feerate
+can be guaranteed, with the effective feerate for the input typically
+overshooting it by a negligible amount. The shared overhead (up to a few dozen
+weight units) in a transaction must also be taken into account in order to
+ensure a minimum feerate for the transaction as a whole.
+
+The effective value of inputs and effective cost of outputs can be defined as
+the associated nominal values adjusted by some fee amount. For inputs the fees
+are subtracted from the previous outputs' nominal values, and for outputs the
+fee amount is added to the nominal value. For each input and output, given a
+feerate[fn::Note that this feerate will not be the same as the transaction's
+final feerate, because the overhead of the data shared by all inputs and outputs
+must also be taken into account, and because some input types' weight is not
+constant.], the adjustment can be derived from the weight, and given an
+adjustment a feerate can be derived from the weight.
+
+One definition of a /wallet/ that we will use is a collection of coins at a
+point in time. Since a wallet belonging to a user will typically not have a coin
+(or combination of coins) of exactly the right amount in order to make a
+payment with an arbitrary amount, transactions often send some of the input
+funds back to the owner of the transaction. These are known as /change/ outputs,
+or more generally /self-spend/ outputs.
