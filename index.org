@@ -33,3 +33,5 @@ then summarized here for a broader audience.
 After consolidating disparate and incomplete writings produced over the last few
 years and organizing them here, the scope can be widened to include new
 materials.
+
+* Preliminaries
