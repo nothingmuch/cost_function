@@ -35,3 +35,52 @@ years and organizing them here, the scope can be widened to include new
 materials.
 
 * Preliminaries
+
+** Basic Terms and Concepts
+
+The Bitcoin blockchain is an ordered list of /transactions/ grouped into into
+individual /blocks/ connected in a linked list structure. Transactions spend
+coins to create other coins, allowing value to be transferred in an indivisible
+unit (satoshis, or /sats/). Coins must only be spent once, so transactions which
+are otherwise valid will conflict with each other if they attempt to spend the
+same coin. In the event of such double spending, /confirmation/ (inclusion in a
+block) provides a tie breaking mechanism that renders any transactions which
+conflict with the included one no longer valid. Every additional block mined on
+top of a block including a transaction is an additional confirmation. Agreeing
+on blocks allows all participants in the network to agree about exactly which
+transactions have or haven't taken effect, and therefore maintain consensus
+regarding the state of all sats in circulation by verifying their history.
+
+Transactions are unconfirmed when initially broadcast. Nodes on the network will
+relay valid transactions to their neighbors using a peer to peer gossip
+protocol. A validating node will keep unconfirmed transactions in its /mempool/,
+which can be thought of as a queue. Although the contents is only roughly
+synchronized across the network, and with potentially varying rules regarding
+acceptance and replacement of transactions, so there is no consensus at the
+mempool layer, often "the" mempool is referred to as though there is, because in
+practice most nodes do see the same transaction. When a transaction enters the
+mempool of a miner[fn::More commonly a mining pool.] they may choose to include
+it in their attempts to find the next block, thereby confirming it.
+
+When a miner successfully mines a block containing a transaction they may
+collect any /fees/ paid by the transaction. These fees are claimed in an output
+of a the block's /coinbase/ transaction, a special transaction which does not
+spend any coins, and instead is funded by the block rewards[fn::The block
+rewards consist of the fees and the initial block subsidy, which is where sats
+enter circulation in the first place]. Block space is limited, so profit
+maximizing miners care more about the /feerate/, than the absolute fee amount,
+because all transactions come in a variety of sizes. Therefore, transactions can
+be said to be competing over blockspace, and miners are competing over block
+rewards. Although the typical mempool behavior is to reject conflicting
+transactions, some nodes allow transaction replacement by fees regardless, and
+transactions may also opt in to being replaceable according to [[https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki][BIP 125]].
+
+Confirmation is not guaranteed to be final, but the cost of confirming a
+conflicting transaction in a competing block compounds as its confirmation depth
+increases. This correspondingly reduces the likelyhood of a transaction being
+reversed. A transaction might be considered final by any of its beneficiaries
+when the cost to mine a competing blockchain that undoes the transaction exceeds
+any payoff the sender might collect from doing so. However, a transaction need
+not be considered final in order to spend its outputs, and miners can confirm
+sequences of dependent transactions in a single block in order to maximize their
+rewards.
