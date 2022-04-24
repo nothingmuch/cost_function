@@ -39,6 +39,70 @@ materials.
 
 ** Transaction Structure
 
+#+NAME: fig:basic_transactions
+#+BEGIN_SRC dot :file diagrams/examples/basic_transactions.svg
+strict digraph {
+    graph [bgcolor=transparent color="#666666" labelloc=b nodesep=0.05 penwidth=0.5 rankdir=LR ranksep=0.02 style=rounded]
+    node [color=transparent fillcolor="#ffffff" fontcolor="#000000" fontname=helvetica fontsize=11 height=0 margin=0.04 minsep=1 penwidth=2 sep=1 shape=box style="rounded,filled" width=0]
+    edge [color="#909090" arrowsize=0.5 minlen=3 penwidth=1]
+
+    // group together the coins of a single transact    io  n
+    subgraph cluster_tx_1 {
+        graph [bgcolor="#d0d0d0" margin=7 ranksep=0.02]
+        edge [minlen=1]
+
+        // group together the inputs
+        subgraph cluster_tx_1_inputs {
+            graph [margin=0 style=invis]
+            input_1_1 [label=1.0]
+            input_1_2 [label=0.5]
+            input_1_3 [label=0.5]
+        }
+
+        // group together the outputs
+        subgraph cluster_tx_1_outputs {
+            graph [margin=0 style=invis]
+            output_1_1 [label=1.1]
+            output_1_2 [label=0.7999]
+            output_1_3 [label=0.1]
+        }
+
+        // add an invisible edge from one of the inputs to one of the outputs,
+        // causing them to be laid out in two columns
+        input_1_1 -> output_1_1 [constraint=true len=0.01 style=invis]
+    }
+
+    subgraph cluster_tx_2 {
+        graph [bgcolor="#d0d0d0" margin=7 ranksep=0.02]
+        edge [minlen=1]
+        subgraph cluster_tx_2_inputs {
+            graph [margin=0 style=invis]
+            input_2_1 [label=1.1]
+            input_2_2 [label=0.7999]
+        }
+        subgraph cluster_tx_2_outputs {
+            graph [margin=0 style=invis]
+            output_2_1 [label=1.0]
+            output_2_2 [label=0.8998]
+        }
+        input_2_1 -> output_2_1 [constraint=true len=0.01 style=invis]
+    }
+
+    // Connect outputs to the inputs that spend them
+    output_1_1 -> input_2_1
+    output_1_2 -> input_2_2
+
+    // Mark unspent coins, normally the border color is transparent
+    output_1_3 [color="#333333"]
+    output_2_1 [color="#333333"]
+    output_2_2 [color="#333333"]
+}
+#+END_SRC
+
+#+CAPTION: A simplified illustration of two (somewhat contrived) transactions illustrated using Graphviz. Within each transaction coins appear as inputs on the left column and as outputs on the right, represented by their nominal values. The same coin may appear twice when it has been spent, in which case an arrow connects from the output that created it to the input that spent it. A heavy border highlights unspent outputs. The previous outputs of the first transaction are not displayed.
+#+RESULTS: fig:basic_transactions
+[[file:diagrams/examples/basic_transactions.svg]]
+
 As a first approximation, Bitcoin transactions consist of two lists, one of
 /inputs/ and one of /outputs/. Inputs fund a transaction, spending the outputs
 of prior transactions by reference, accompanied with proof that the transaction
