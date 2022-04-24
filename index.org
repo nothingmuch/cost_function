@@ -1,4 +1,5 @@
 #+TITLE: Bitcoin Wallet Cost Function Analysis
+#+LATEX_HEADER: \usepackage{svg}
 
 #+begin_abstract
 This repository proposes a framework for studying cost functions for the
