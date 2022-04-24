@@ -11,7 +11,7 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
         customTexlive = pkgs.texlive.combine {
-          inherit (pkgs.texlive) scheme-medium latex-bin latexmk wrapfig ulem capt-of trimspaces catchfile;
+          inherit (pkgs.texlive) scheme-medium latex-bin latexmk wrapfig ulem capt-of trimspaces catchfile transparent svg;
         };
       in
       rec {
@@ -23,15 +23,28 @@
         };
 
         # TODO refactor into something more modular
+        # - emacs batch commands to script?
+        # - use org-export with new overlay package?
         packages = {
           pdf = pkgs.stdenvNoCC.mkDerivation rec {
             name = "org latex export";
             src = self;
-            buildInputs = with pkgs; [ coreutils emacs customTexlive ];
+            buildInputs = with pkgs; [ coreutils emacs customTexlive graphviz inkscape ];
             phases = [ "unpackPhase" "buildPhase" "installPhase" ];
             buildPhase = ''
               export PATH="${pkgs.lib.makeBinPath buildInputs}";
-              emacs -q index.org --batch -f org-latex-export-to-pdf --kill
+
+              mkdir -p diagrams/examples
+
+              emacs -Q --batch \
+                --eval "(setq org-confirm-babel-evaluate (lambda (lang body) nil))" \
+                --eval "(org-babel-do-load-languages 'org-babel-load-languages '((dot . t)))" \
+                index.org \
+                -f org-latex-export-to-latex \
+                --kill
+
+              # tectonic -Z shell-escape might be preferable
+              pdflatex --shell-escape index.tex
             '';
             installPhase = ''
               mkdir -p $out
@@ -42,15 +55,24 @@
           html = pkgs.stdenvNoCC.mkDerivation rec {
             name = "org html export";
             src = self;
-            buildInputs = [ pkgs.coreutils pkgs.emacs ];
+            buildInputs = with pkgs; [ coreutils emacs graphviz ];
             phases = [ "unpackPhase" "buildPhase" "installPhase" ];
             buildPhase = ''
               export PATH="${pkgs.lib.makeBinPath buildInputs}";
-              emacs -q index.org --batch -f org-html-export-to-html --kill
+
+              mkdir -p diagrams/examples
+
+              emacs -Q --batch \
+                --eval "(setq org-confirm-babel-evaluate (lambda (lang body) nil))" \
+                --eval "(org-babel-do-load-languages 'org-babel-load-languages '((dot . t)))" \
+                index.org \
+                -f org-html-export-to-html \
+                --kill
             '';
             installPhase = ''
               mkdir -p $out
               cp index.html $out
+              cp -R diagrams $out/diagrams
             '';
           };
         };
