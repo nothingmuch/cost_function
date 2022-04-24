@@ -146,3 +146,42 @@ point in time. Since a wallet belonging to a user will typically not have a coin
 payment with an arbitrary amount, transactions often send some of the input
 funds back to the owner of the transaction. These are known as /change/ outputs,
 or more generally /self-spend/ outputs.
+
+#+NAME: fig:basic_payment
+#+BEGIN_SRC dot :noexport :file diagrams/examples/basic_payment.svg
+strict digraph {
+    graph [bgcolor=transparent color="#666666" labelloc=b nodesep=0.05 penwidth=0.5 rankdir=LR ranksep=0.02 style=rounded]
+    node [color=transparent fillcolor="#ffffff" fontcolor="#000000" fontname=helvetica fontsize=11 height=0 margin=0.04 minsep=1 penwidth=2 sep=1 shape=box style="rounded,filled" width=0]
+    edge [color="#909090" arrowsize=0.5 minlen=3 penwidth=1]
+    subgraph cluster_tx_1 {
+        graph [bgcolor="#d0d0d0" margin=7 ranksep=0.02]
+        edge [minlen=1]
+        subgraph cluster_tx_1_outputs {
+            graph [margin=0 style=invis]
+            output_1_1 [label=50.0]
+        }
+    }
+    subgraph cluster_tx_2 {
+        graph [bgcolor="#d0d0d0" margin=7 ranksep=0.02]
+        edge [minlen=1]
+        subgraph cluster_tx_2_inputs {
+            graph [margin=0 style=invis]
+            input_2_1 [label=50.0]
+        }
+        subgraph cluster_tx_2_outputs {
+            graph [margin=0 style=invis]
+            output_2_1 [label=29.99999858]
+            output_2_2 [label=20.0]
+        }
+        input_2_1 -> output_2_1 [constraint=true len=0.01 style=invis]
+        fontcolor="#555555" fontname=helvetica fontsize=7 label="142.5 vB &times; 1.0 sat/vB \n= 142 sats in fees"
+    }
+    output_1_1 -> input_2_1
+    output_2_1 [color="#333333"]
+    output_2_2 [color="#333333"]
+}
+#+END_SRC
+
+#+CAPTION: A payment made with a coinbase output which sends 20 BTC to the payee and the remaining amount minus the fees back to the payer as change.
+#+RESULTS: fig:basic_payment
+[[file:diagrams/examples/basic_payment.svg]]
