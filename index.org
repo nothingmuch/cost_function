@@ -14,3 +14,53 @@ taken for granted.
 #+end_abstract
 
 * Preliminaries
+
+** Privacy
+
+Due to its transparency, transacting with Bitcoin privately is hardly straight
+forward. The transactions themselves reveal information about the amounts as
+already noted, but the wallet software being used might be possible to infer as
+well, because different wallets produce different observable patterns in their
+script types, the ordering of inputs or outputs, choice of feerates, locktime,
+and so on. These patterns are called /transaction fingerprints/. The transaction
+graph is also used to heuristically clustering coins together, allowing the
+associations with exogenous information to be propagated to other coins. Of
+particular concern, coins or transactions are often linked to personally
+identifying information provided to exchanges or merchants. This information may
+leak if the websites are breached, exposing users to risk potentially years
+after they've forgotten the details of their activity.
+
+Other information may also be taken into account: temporal patterns, or where a
+transaction originated from (from which node on the network, and potentially
+network related information that can also be linked to personally identifying
+information).
+
+At the level of the blockchain Bitcoin is a pseudonymous system: public keys are
+unique identifiers that are overtly implicated in transactions. A single user
+may use any number of them and most wallet software will do so by default, in
+order to avoid reuse. When used more than once, for example because of a static
+donation address, the coins in question clearly belong to the same user. Two
+common heuristics initially described in the Bitcoin white paper and which have
+since been studied extensively are often used to interpret the transaction
+graph. The first heuristic assumes that inputs to a single transaction belong to
+the same owner. The second is nebulous, and is more of a family heuristics for
+identifying the change output in a payment transaction, thereby ascribing
+ownership to it as well.
+
+Because inadvertently revealing financial information risks the safety and the
+financial interests of users, and because it is relatively straight forward to
+selectively disclose information, we will assume that the need for privacy is
+self evident. It follows the lack of widespread use is due to technical
+barriers, lack of education, and market failure, among other reasons. In other
+words, a vast majority of users would benefit from resistance to dragnet
+surveillance by nation level adversaries, as well as confidentiality from
+counterparties which may present a concern for targeted attacks. The threat of a
+targeted attack by a nation level adversary is more serious and likely imposes
+unreasonable costs for more users, but this too should be considered because
+usage of privacy technology is positive sum.
+
+Depending on the user's threat model, different tools may be employed with
+varying costs and delays required in order to afford users the ability to
+transact privately under some adverserial assumptions. The goal of this study is
+to better understand the tradeoffs which are available or possible and
+facilitate comparative analysis.
