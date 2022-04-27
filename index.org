@@ -12,3 +12,24 @@ with confirmation times. This is in addition to well established objective
 metrics such as the blockspace or fees required for a transaction, which are
 taken for granted.
 #+end_abstract
+
+* Introduction
+
+This repository and document are both a work in progress.
+
+This document is meant to provide an overview of the findings which will be
+presented in more detail in separate sidetrack documents or chapters.
+
+In rough priority order, materials that are currently (April 2022) being
+reworked into this repository:
+
+- quantitative modeling of aspects of privacy and ambiguity
+- agentpy based simulations
+- concrete cost function for use in CoinJoins
+
+These will be integrated first into the different "sidetrack" documents, and
+then summarized here for a broader audience.
+
+After consolidating disparate and incomplete writings produced over the last few
+years and organizing them here, the scope can be widened to include new
+materials.
