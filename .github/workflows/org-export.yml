@@ -1,0 +1,33 @@
+name: "org-mode export"
+on:
+  pull_request:
+  push:
+jobs:
+  org-export-html:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: cachix/install-nix-action@v17
+      with:
+        extra_nix_config: |
+          access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+    - run: nix build .#html
+    - run: cp -R result/ html/
+    - uses: actions/upload-artifact@v3
+      with:
+        name: html
+        path: html/
+  org-export-pdf:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: cachix/install-nix-action@v17
+      with:
+        extra_nix_config: |
+          access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+    - run: nix build .#pdf
+    - run: cp -R result/ pdf/
+    - uses: actions/upload-artifact@v3
+      with:
+        name: pdf
+        path: pdf/
