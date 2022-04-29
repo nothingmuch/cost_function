@@ -28,6 +28,12 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: html/
+    - uses: peaceiris/actions-gh-pages@v3
+      if: ${{ github.ref == 'refs/heads/draft' }}
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: html/
+        destination_dir: draft/
   org-export-pdf:
     runs-on: ubuntu-latest
     steps:
