@@ -5,6 +5,8 @@ on:
 jobs:
   org-export-html:
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
     steps:
     - uses: actions/checkout@v3
     - uses: cachix/install-nix-action@v17
@@ -17,6 +19,11 @@ jobs:
       with:
         name: html
         path: html/
+    - uses: peaceiris/actions-gh-pages@v3
+      if: ${{ github.ref == 'refs/heads/main' }}
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: html/
   org-export-pdf:
     runs-on: ubuntu-latest
     steps:
