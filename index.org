@@ -1,5 +1,7 @@
 #+TITLE: Bitcoin Wallet Cost Function Analysis
 #+OPTIONS: toc:nil
+#+AUTHOR: Yuval Kogman
+#+EMAIL: nothingmuch@woobling.org
 
 #+begin_abstract
 This repository proposes a framework for studying cost functions for the
