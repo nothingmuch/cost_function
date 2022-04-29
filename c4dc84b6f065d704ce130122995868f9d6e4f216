@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16bca32f_ac808965",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020158
+      },
+      "writtenOn": "2022-04-29T01:21:15Z",
+      "side": 1,
+      "message": "inconsistent indentation",
+      "revId": "c4dc84b6f065d704ce130122995868f9d6e4f216",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17c1d994_50fa9d81",
+        "filename": "index.org",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1020158
+      },
+      "writtenOn": "2022-04-29T01:21:15Z",
+      "side": 1,
+      "message": "inconsistent indentation",
+      "revId": "c4dc84b6f065d704ce130122995868f9d6e4f216",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
