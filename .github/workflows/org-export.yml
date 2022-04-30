@@ -13,6 +13,10 @@ jobs:
       with:
         extra_nix_config: |
           access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+    - uses: cachix/cachix-action@v10
+      with:
+        name: nothingmuch
+        authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
     - run: nix build .#html
     - run: cp -R result/ html/
     - uses: actions/upload-artifact@v3
@@ -32,6 +36,10 @@ jobs:
       with:
         extra_nix_config: |
           access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+    - uses: cachix/cachix-action@v10
+      with:
+        name: nothingmuch
+        authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
     - run: nix build .#pdf
     - run: cp -R result/ pdf/
     - uses: actions/upload-artifact@v3
