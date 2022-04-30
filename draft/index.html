@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-04-30 Sat 03:35 -->
+<!-- 2022-04-30 Sat 03:03 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Bitcoin Wallet Cost Function Analysis</title>
@@ -218,7 +218,7 @@
 <body>
 <div id="content" class="content">
 <h1 class="title">Bitcoin Wallet Cost Function Analysis</h1>
-<div class="abstract" id="orgb161ca2">
+<div class="abstract" id="org51fcd39">
 <p>
 This repository proposes a framework for studying cost functions for the
 decision space available to Bitcoin wallets when creating transactions. A
@@ -231,8 +231,8 @@ taken for granted.
 
 </div>
 
-<div id="outline-container-orgd5a68c2" class="outline-2">
-<h2 id="orgd5a68c2"><span class="section-number-2">1.</span> Introduction</h2>
+<div id="outline-container-org20b670f" class="outline-2">
+<h2 id="org20b670f"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 This repository and document are both a work in progress.
@@ -267,12 +267,12 @@ materials.
 </div>
 </div>
 
-<div id="outline-container-orgaee81e5" class="outline-2">
-<h2 id="orgaee81e5"><span class="section-number-2">2.</span> Preliminaries</h2>
+<div id="outline-container-org5ced934" class="outline-2">
+<h2 id="org5ced934"><span class="section-number-2">2.</span> Preliminaries</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgc22602a" class="outline-3">
-<h3 id="orgc22602a"><span class="section-number-3">2.1.</span> Basic Terms and Concepts</h3>
+<div id="outline-container-org031cba1" class="outline-3">
+<h3 id="org031cba1"><span class="section-number-3">2.1.</span> Basic Terms and Concepts</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 The Bitcoin blockchain is an ordered list of <i>transactions</i> grouped into into
@@ -329,8 +329,8 @@ rewards.
 </div>
 </div>
 
-<div id="outline-container-org729aa24" class="outline-3">
-<h3 id="org729aa24"><span class="section-number-3">2.2.</span> Utility of Transacting with Bitcoin</h3>
+<div id="outline-container-orgb72003d" class="outline-3">
+<h3 id="orgb72003d"><span class="section-number-3">2.2.</span> Utility of Transacting with Bitcoin</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 Regardless of how it's configured or how it works, every wallet ends up making
@@ -391,67 +391,14 @@ as provide more precise definitions of the desired behavior.
 </div>
 </div>
 
-<div id="outline-container-org32318d8" class="outline-3">
-<h3 id="org32318d8"><span class="section-number-3">2.3.</span> Transaction Structure</h3>
+<div id="outline-container-orgac4187d" class="outline-3">
+<h3 id="orgac4187d"><span class="section-number-3">2.3.</span> Transaction Structure</h3>
 <div class="outline-text-3" id="text-2-3">
-<div class="org-src-container">
-<pre class="src src-dot" id="orgae0e806">strict digraph {
-    graph [bgcolor=transparent color="#666666" labelloc=b nodesep=0.05 penwidth=0.5 rankdir=LR ranksep=0.02 style=rounded]
-    node [color=transparent fillcolor="#ffffff" fontcolor="#000000" fontname=helvetica fontsize=11 height=0 margin=0.04 minsep=1 penwidth=2 sep=1 shape=box style="rounded,filled" width=0]
-    edge [color="#909090" arrowsize=0.5 minlen=3 penwidth=1]
 
-    // group together the coins of a single transact    io  n
-    subgraph cluster_tx_1 {
-	graph [bgcolor="#d0d0d0" margin=7 ranksep=0.02]
-	edge [minlen=1]
-
-	// group together the inputs
-	subgraph cluster_tx_1_inputs {
-	    graph [margin=0 style=invis]
-	    input_1_1 [label=1.0]
-	    input_1_2 [label=0.5]
-	    input_1_3 [label=0.5]
-	}
-
-	// group together the outputs
-	subgraph cluster_tx_1_outputs {
-	    graph [margin=0 style=invis]
-	    output_1_1 [label=1.1]
-	    output_1_2 [label=0.7999]
-	    output_1_3 [label=0.1]
-	}
-
-	// add an invisible edge from one of the inputs to one of the outputs,
-	// causing them to be laid out in two columns
-	input_1_1 -&gt; output_1_1 [constraint=true len=0.01 style=invis]
-    }
-
-    subgraph cluster_tx_2 {
-	graph [bgcolor="#d0d0d0" margin=7 ranksep=0.02]
-	edge [minlen=1]
-	subgraph cluster_tx_2_inputs {
-	    graph [margin=0 style=invis]
-	    input_2_1 [label=1.1]
-	    input_2_2 [label=0.7999]
-	}
-	subgraph cluster_tx_2_outputs {
-	    graph [margin=0 style=invis]
-	    output_2_1 [label=1.0]
-	    output_2_2 [label=0.8998]
-	}
-	input_2_1 -&gt; output_2_1 [constraint=true len=0.01 style=invis]
-    }
-
-    // Connect outputs to the inputs that spend them
-    output_1_1 -&gt; input_2_1
-    output_1_2 -&gt; input_2_2
-
-    // Mark unspent coins, normally the border color is transparent
-    output_1_3 [color="#333333"]
-    output_2_1 [color="#333333"]
-    output_2_2 [color="#333333"]
-}
-</pre>
+<div id="org77b0336" class="figure">
+<p><img src="diagrams/examples/basic_transactions.svg" alt="basic_transactions.svg" class="org-svg" />
+</p>
+<p><span class="figure-number">Figure 1: </span>A simplified illustration of two (somewhat contrived) transactions illustrated using Graphviz. Within each transaction coins appear as inputs on the left column and as outputs on the right, represented by their nominal values. The same coin may appear twice when has been spent, in which case an arrow connects from the output that created it to the input that spent it. A heavy border highlights unspent outputs. The previous outputs of the first transaction are not displayed.</p>
 </div>
 
 <p>
@@ -520,45 +467,17 @@ funds back to the owner of the transaction. These are known as <i>change</i> out
 or more generally <i>self-spend</i> outputs.
 </p>
 
-<div class="org-src-container">
-<pre class="src src-dot" id="org14744a0">strict digraph {
-    graph [bgcolor=transparent color="#666666" labelloc=b nodesep=0.05 penwidth=0.5 rankdir=LR ranksep=0.02 style=rounded]
-    node [color=transparent fillcolor="#ffffff" fontcolor="#000000" fontname=helvetica fontsize=11 height=0 margin=0.04 minsep=1 penwidth=2 sep=1 shape=box style="rounded,filled" width=0]
-    edge [color="#909090" arrowsize=0.5 minlen=3 penwidth=1]
-    subgraph cluster_tx_1 {
-	graph [bgcolor="#d0d0d0" margin=7 ranksep=0.02]
-	edge [minlen=1]
-	subgraph cluster_tx_1_outputs {
-	    graph [margin=0 style=invis]
-	    output_1_1 [label=50.0]
-	}
-    }
-    subgraph cluster_tx_2 {
-	graph [bgcolor="#d0d0d0" margin=7 ranksep=0.02]
-	edge [minlen=1]
-	subgraph cluster_tx_2_inputs {
-	    graph [margin=0 style=invis]
-	    input_2_1 [label=50.0]
-	}
-	subgraph cluster_tx_2_outputs {
-	    graph [margin=0 style=invis]
-	    output_2_1 [label=29.99999858]
-	    output_2_2 [label=20.0]
-	}
-	input_2_1 -&gt; output_2_1 [constraint=true len=0.01 style=invis]
-	fontcolor="#555555" fontname=helvetica fontsize=7 label="142.5 vB &amp;times; 1.0 sat/vB \n= 142 sats in fees"
-    }
-    output_1_1 -&gt; input_2_1
-    output_2_1 [color="#333333"]
-    output_2_2 [color="#333333"]
-}
-</pre>
+
+<div id="org2a77381" class="figure">
+<p><img src="diagrams/examples/basic_payment.svg" alt="basic_payment.svg" class="org-svg" />
+</p>
+<p><span class="figure-number">Figure 2: </span>A payment made with a coinbase output which sends 20 BTC to the payee and the remaining amount minus the fees back to the payer as change.</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org3665dc1" class="outline-3">
-<h3 id="org3665dc1"><span class="section-number-3">2.4.</span> Privacy</h3>
+<div id="outline-container-org35ea678" class="outline-3">
+<h3 id="org35ea678"><span class="section-number-3">2.4.</span> Privacy</h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
 Due to its transparency, transacting with Bitcoin privately is hardly straight
@@ -656,7 +575,7 @@ constant.</p></div></div>
 </div></div>
 <div id="postamble" class="status">
 <p class="author">Author: Yuval Kogman</p>
-<p class="date">Created: 2022-04-30 Sat 03:35</p>
+<p class="date">Created: 2022-04-30 Sat 03:03</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
