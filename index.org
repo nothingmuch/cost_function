@@ -21,7 +21,7 @@ This repository and document are both a work in progress.
 This document is meant to provide an overview of the findings which will be
 presented in more detail in separate sidetrack documents or chapters.
 
-In rough priority order, materials that are currently (April 2022) being
+In rough order of priority, materials that are currently (April 2022) being
 reworked into this repository:
 
 - quantitative modeling of aspects of privacy and ambiguity
